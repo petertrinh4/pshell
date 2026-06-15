@@ -1,9 +1,9 @@
-# pragma once
+#pragma once
 
+#include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <iostream>
 
 void print_symbol();
 std::string get_input();

@@ -10,6 +10,11 @@ if(MSVC)
     add_compile_options(/W4 /WX)
 else()
     add_compile_options(-Wall -Wextra -Werror -pedantic)
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        add_compile_options(-fsanitize=address,undefined -g)
+        add_link_options(-fsanitize=address,undefined)
+    endif()
 endif()
 
 set(SOURCES
