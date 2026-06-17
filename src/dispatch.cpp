@@ -1,21 +1,21 @@
 #include "dispatch.hpp"
 #include "executor.hpp"
 
-void command_dispatch(const std::vector<std::string>& tokens)
+void command_dispatch(const ParsedCommand& command)
 {
-    if (tokens.empty())
+    if (command.command.empty())
     {
         return;
     }
-    if (tokens[0] == "exit")
+    if (command.command[0] == "exit")
     {
         std::exit(0);
     }
-    else if (tokens[0] == "cd")
+    else if (command.command[0] == "cd")
     {
         try
         {
-            if (tokens.size() < 2)
+            if (command.command.size() < 2)
             {
                 const char* home{std::getenv("HOME")};
 
@@ -27,13 +27,13 @@ void command_dispatch(const std::vector<std::string>& tokens)
                 std::filesystem::current_path(home);
                 return;
             }
-            if (tokens.size() > 2)
+            if (command.command.size() > 2)
             {
                 std::cerr << "cd: too many arguments\n";
                 return;
             }
 
-            std::filesystem::current_path(tokens[1]);
+            std::filesystem::current_path(command.command[1]);
         }
 
         catch (const std::filesystem::filesystem_error& e)
@@ -41,13 +41,22 @@ void command_dispatch(const std::vector<std::string>& tokens)
             std::cerr << e.what() << '\n';
         }
     }
+    else if (command.has_pipe)
+    {
+        execute_pipe(command);
+    }
+    else if (command.has_output_redirect ||
+            command.has_input_redirect)
+    {
+        execute_redirection(command);
+    }
     else
     {
-        int result{execute_external(tokens)};
+        int result{execute_external(command.command)};
 
         if (result != 0)
         {
-            std::cout << tokens[0] << ": command not found" << '\n';
+            std::cout << command.command[0] << ": command not found" << '\n';
         }
     }
 }

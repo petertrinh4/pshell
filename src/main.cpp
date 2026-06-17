@@ -1,5 +1,6 @@
 #include "dispatch.hpp"
 #include "input.hpp"
+#include "parser.hpp"
 
 int main()
 {
@@ -16,7 +17,8 @@ int main()
             continue;
         }
 
-        command_dispatch(tokens); // Will look at the first word in the vector to determine what
+        ParsedCommand parsed{ parse(tokens) };
+        command_dispatch(parsed); // Will look at the first word in the vector to determine what
                                   // command is being utilized.
     }
 
