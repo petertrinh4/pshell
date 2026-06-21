@@ -1,5 +1,7 @@
 #include "dispatch.hpp"
 #include "executor.hpp"
+#include "pipe.hpp"
+#include "redirection.hpp"
 
 void command_dispatch(const ParsedCommand& command)
 {
@@ -18,7 +20,6 @@ void command_dispatch(const ParsedCommand& command)
             if (command.command.size() < 2)
             {
                 const char* home{std::getenv("HOME")};
-
                 if (home == nullptr)
                 {
                     std::cerr << "cd: HOME not set\n";
@@ -45,8 +46,7 @@ void command_dispatch(const ParsedCommand& command)
     {
         execute_pipe(command);
     }
-    else if (command.has_output_redirect ||
-            command.has_input_redirect)
+    else if (command.has_output_redirect || command.has_input_redirect)
     {
         execute_redirection(command);
     }

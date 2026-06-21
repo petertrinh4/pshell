@@ -1,4 +1,9 @@
 #include "executor.hpp"
+#include <cstdlib>
+#include <iostream>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 int execute_external(
     const std::vector<std::string>& tokens) // Executes commands like "ls", "echo", and "cat"

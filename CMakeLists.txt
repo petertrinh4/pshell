@@ -23,6 +23,8 @@ set(SOURCES
     src/dispatch.cpp
     src/executor.cpp
     src/parser.cpp
+    src/redirection.cpp
+    src/pipe.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

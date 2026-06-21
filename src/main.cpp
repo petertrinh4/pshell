@@ -17,7 +17,7 @@ int main()
             continue;
         }
 
-        ParsedCommand parsed{ parse(tokens) };
+        ParsedCommand parsed{parse(tokens)};
         command_dispatch(parsed); // Will look at the first word in the vector to determine what
                                   // command is being utilized.
     }

@@ -4,11 +4,11 @@
 ParsedCommand parse(const std::vector<std::string>& tokens) // Takes in tokenized vector
 {
     ParsedCommand parsed{};
-    bool parsing_piped_command{ false };
+    bool parsing_piped_command{false}; // Tokens after "|" belong to piped_command
 
-    for (std::size_t i{}; i < tokens.size(); ++i) // Iterate through tokens to categorize 
+    for (std::size_t i{}; i < tokens.size(); ++i)
     {
-        const auto& token{ tokens[i] };
+        const auto& token{tokens[i]};
 
         if (token == "|")
         {
@@ -49,11 +49,11 @@ ParsedCommand parse(const std::vector<std::string>& tokens) // Takes in tokenize
         {
             if (parsing_piped_command)
             {
-                parsed.piped_command.push_back(token);
+                parsed.piped_command.push_back(token); // Placing tokens in piped_command
             }
             else
             {
-                parsed.command.push_back(token);
+                parsed.command.push_back(token); // Placing tokens in command
             }
         }
     }
